@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package vtproto.error;
+option go_package = "github.com/LeekerLabs/vt-proto/vtproto_error";
+
+
+message Error {
+	string message = 1;
+	ErrorCode code = 2;
+}
+
+enum ErrorCode {
+	NOERROR = 0;
+	ERROR = 1000;
+	NOT_FOUND = 1001;
+	WRONG_PASSWORD = 1002;
+	DUP = 1003;
+	NOT_LOGIN = 1004;
+	WRONG_VERIFY_CODE = 1005;
+	NEED_TO_BIND_CELL_PHONE_NUMBER = 1006;
+	DO_NOT_HAVA_ENOUGH_COIN = 1007;
+	COOL_DOWN = 1008;
+	WITHDRAW_DISABLE = 1009;
+}

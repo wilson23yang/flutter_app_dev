@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package vtproto.account;
+option go_package = "github.com/LeekerLabs/vt-proto/vtproto_account";
+
+import "google/api/annotations.proto";
+import "vtproto_error/error.proto";
+
+service AccountNoAuthService {
+
+	rpc Register (RegisterReq) returns (RegisterRes) {
+		option (google.api.http) = {
+post: "/account/register"
+		  body: "*"
+		};
+	}
+
+	rpc Login (LoginReq) returns (LoginRes) {
+		option (google.api.http) = {
+post: "/account/login"
+		  body: "*"
+		};
+	}
+}
+
+
+service AccountService {
+	rpc Logout (LogoutReq) returns (LogoutRes) {
+		option (google.api.http) = {
+post: "/account/logout"
+		  body: "*"
+		};
+	}
+
+}
+
+message RegisterReq {
+	string name = 1;
+	string password_md5 = 2;
+	int64 parent_code = 3;
+}
+
+message RegisterRes {
+	vtproto.error.Error error = 1;
+	string account_id = 2;
+}
+
+message LoginReq {
+	string name = 1;
+	string password_md5 = 2;
+}
+
+message LoginRes {
+	vtproto.error.Error error = 1;
+	int64 code = 2;
+	string token = 3;
+}
+
+message LogoutReq {
+}
+
+message LogoutRes {
+	vtproto.error.Error error = 1;
+}
+
