@@ -1,7 +1,21 @@
 # 应用开发框架
 
+[项目Github地址][https://github.com/wilson23yang/flutter_app_dev.git]
+
+ 模块可配置
+ 
+ 网络框架基于GRPC进行封装
+
+ 实时状态传送更新与持久化使用Redux
+ 
+ 资源文件引用使用脚本自动生成，加快开发
+ 
+ 
+
 ## 1.应用模块可配置
-    主页应用模块可动态配置设整，增删模块可通过ModuleConfig进行配置，无需修改MainPage。ModuleConfig配置示例如下：
+    主页应用模块可动态配置设整，增删模块可通过ModuleConfig进行配置，无需修改MainPage。
+    
+ModuleConfig配置示例如下：
 
 ```
 ///模块定义与配置
@@ -44,9 +58,12 @@ class ModuleConfig{
     a.GRPC请求与响应进行统一封装处理
         位于：lib/infrastructures/api/api_request.dart
         
-        static Future<T> grpcFuture<T,K>({@required String tag, @required GRPCCall grpcCall,
-        @required GRPCRequest<K> request,GRPCResponse<T> response,
-        bool printDebugLog = true,bool cancelDoubleCall = false}) async
+        static Future<T> grpcFuture<T,K>({
+            @required String tag, 
+            @required GRPCCall grpcCall,
+            @required GRPCRequest<K> request,GRPCResponse<T> response,
+            bool printDebugLog = true,bool cancelDoubleCall = false
+        }) async
         {
             ...
         }
@@ -55,13 +72,19 @@ class ModuleConfig{
     
     c.调用示例：
     ```
-    Future<RegisterRes> register({@required String name,@required String password,@required String inviteCode}){
+    Future<RegisterRes> register({
+        @required String name,
+        @required String password,
+        @required String inviteCode
+    }){
       return ApiRequest.grpcFuture(
         tag: 'register',
         request: () async {
           var pwd = Utf8Encoder().convert(password);
           var digest = md5.convert(pwd);
-          return RegisterReq()..name=name..passwordMd5=hex.encode(digest.bytes)..parentCode=Int64(int.parse(inviteCode));
+          return RegisterReq()..name=name
+                  ..passwordMd5=hex.encode(digest.bytes)
+                  ..parentCode=Int64(int.parse(inviteCode));
         },
         grpcCall: (request) => GRPCManager.getAccountNoAuthClient().register(request),
         response: ({rsp,headers}) => rsp,
@@ -80,10 +103,12 @@ class ModuleConfig{
         通过lib/res/theme_manager.dart  ThemeManager可切换应用主题，如白天黑夜模式
     
     b.图片
-        将图片资源根据主题在ImageTheme中定义，然后通过lib/res/images/script.dart生成对应主题资源源文件供调用
+        将图片资源根据主题在ImageTheme中定义，然后通过lib/res/images/script.dart
+        生成对应主题资源源文件供调用
     
     c.颜色
-        将颜色资源根据主题在ColorTheme中定义，然后通过lib/res/colors/script.dart生成对应主题资源源文件供调用
+        将颜色资源根据主题在ColorTheme中定义，然后通过lib/res/colors/script.dart
+        生成对应主题资源源文件供调用
     
     d.样式
         页面样式按功能模块统一管理
@@ -103,3 +128,6 @@ class ModuleConfig{
 
 
 
+
+
+[https://github.com/wilson23yang/flutter_app_dev.git]: https://github.com/wilson23yang/flutter_app_dev.git
